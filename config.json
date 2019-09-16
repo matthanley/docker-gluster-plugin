@@ -1,0 +1,73 @@
+{
+    "description": "GlusterFS volume plugin for Docker",
+    "documentation": "https://github.com/matthanley/docker-gluster-plugin",
+    "entrypoint": [
+        "/go/bin/app"
+    ],
+    "env": [
+        {
+            "name": "disk",
+            "settable": [
+                "value"
+            ],
+            "value": "/srv/gluster/disk/docker0"
+        },
+        {
+            "name": "hosts",
+            "settable": [
+                "value"
+            ],
+            "value": ""
+        },
+        {
+            "name": "socket",
+            "settable": [
+                "value"
+            ],
+            "value": "/run/docker/plugins/gluster.sock"
+        }
+    ],
+    "network": {
+        "type": "host"
+    },
+    "propagatedMount": "/var/lib/docker-volumes",
+    "interface": {
+        "types": [
+            "docker.volumedriver/1.0"
+        ],
+        "socket": "gluster.sock"
+    },
+    "mounts": [
+        {
+          "source": "/dev",
+          "destination": "/dev",
+          "type": "none",
+          "options": [
+            "rbind"
+          ]
+        },
+        {
+          "source": "/var/lib/glusterd",
+          "destination": "/var/lib/glusterd",
+          "type": "none",
+          "options": [
+            "bind"
+          ]
+        },
+        {
+          "source": "/var/run",
+          "destination": "/var/run",
+          "type": "none",
+          "options": [
+            "bind"
+          ]
+        }
+      ],
+    "linux": {
+        "capabilities": [
+            "CAP_SYS_ADMIN"
+        ],
+        "AllowAllDevices": true,
+        "Devices": null
+    }
+}
